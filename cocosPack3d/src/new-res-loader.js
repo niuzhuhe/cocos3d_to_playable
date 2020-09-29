@@ -2,8 +2,7 @@ function(){
     cc.loader.addDownloadHandlers({
         json: function(item, callback) {
             let winRes = window.res[item.url];
-            console.log("item.url:",winRes);
-            callback(null, winRes)
+            setTimeCallBack(winRes,callback)
         },
         bin: function(item, callback) {
             callback(null, base64DecToArr(window.res[item.url], 2));
@@ -11,22 +10,22 @@ function(){
         png: function(item, callback) {
             var img = new Image()
             img.src = "data:image/png;base64," + window.res[item.url]
-            callback(null, img)
+            setTimeCallBack(img,callback)
         },
         jpg: function(item, callback) {
             var img = new Image()
             img.src = "data:image/jpeg;base64," + window.res[item.url]
-            callback(null, img)
+            setTimeCallBack(img,callback)
         },
         mtl: function(item, callback) {
             var img = new Image()
             img.src = "data:image/mtl;base64," + window.res[item.url]
-            callback(null, img)
+            setTimeCallBack(img,callback)
         },
         webp: function(item, callback) {
             var img = new Image()
             img.src = "data:image/webp;base64," + window.res[item.url]
-            callback(null, img)
+            setTimeCallBack(img,callback)
         },
         mp3: function(item, callback) {
             cc.sys.__audioSupport.context.decodeAudioData(
@@ -55,6 +54,12 @@ function(){
             )
         },
     })
+    
+    function setTimeCallBack(item,callback){
+        setTimeout(function(){
+            callback(null, item)    
+        },10)
+    }
     
     function b64ToUint6(nChr) {
         return nChr > 64 && nChr < 91 ?
